@@ -45,9 +45,9 @@ jobs:
           || startsWith(github.ref_name, 'feat/')
           || (github.event_name == 'workflow_dispatch' && github.event.inputs.target == 'alpha')
         run: |
-          SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
-          sed -i "s/^version = \".*\"/version = \"0.1.0a1+${SHORT_SHA}\"/" pyproject.toml
-          echo "Publishing alpha: 0.1.0a1+${SHORT_SHA}"
+          ALPHA_NUM=$(git rev-list --count HEAD)
+          sed -i "s/^version = \".*\"/version = \"0.1.0a${ALPHA_NUM}\"/" pyproject.toml
+          echo "Publishing alpha: 0.1.0a${ALPHA_NUM}"
 
       - name: Build Package
         run: python -m build
