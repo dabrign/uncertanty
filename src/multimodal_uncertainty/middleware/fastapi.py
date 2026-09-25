@@ -2,7 +2,7 @@
 FastAPI Middleware to evaluate payload uncertainty and inject X-Extraction-Uncertainty-Score headers.
 """
 
-from typing import Callable
+from collections.abc import Callable
 
 try:
     from fastapi import Request, Response

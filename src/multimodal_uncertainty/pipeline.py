@@ -5,9 +5,8 @@ Implements stepwise perplexity tracking across sequential agent nodes (Cui et al
 and enforces upstream uncertainty tag propagation to prevent cascading failures.
 """
 
-from typing import List, Optional, Tuple
-from multimodal_uncertainty.models import E2EEvaluatorResult, NodeUncertainty
 from multimodal_uncertainty.decision import PipelineDecisionEngine
+from multimodal_uncertainty.models import E2EEvaluatorResult, NodeUncertainty
 
 
 class ChainOfPromptsEvaluator:
@@ -20,9 +19,9 @@ class ChainOfPromptsEvaluator:
     Step 3: Validation & Business Rules               -> NodeUncertainty 3
     """
 
-    def __init__(self, decision_engine: Optional[PipelineDecisionEngine] = None):
+    def __init__(self, decision_engine: PipelineDecisionEngine | None = None):
         self.decision_engine = decision_engine or PipelineDecisionEngine()
-        self.pipeline_nodes: List[NodeUncertainty] = []
+        self.pipeline_nodes: list[NodeUncertainty] = []
 
     def add_step_result(self, node_result: NodeUncertainty) -> str:
         """
@@ -53,7 +52,7 @@ class ChainOfPromptsEvaluator:
         """
         return self.decision_engine.evaluate(self.pipeline_nodes)
 
-    def identify_bottleneck_step(self) -> Tuple[Optional[str], float]:
+    def identify_bottleneck_step(self) -> tuple[str | None, float]:
         """
         Finds the specific node step with the highest overall value perplexity.
         Returns (node_name, max_perplexity).

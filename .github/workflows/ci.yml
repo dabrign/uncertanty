@@ -31,7 +31,11 @@ jobs:
 
       - name: Check Code Formatting (Black)
         run: |
-          black --check --line-length 100 src tests utils
+          if [ "${{ matrix.python-version }}" = "3.10" ] || [ "${{ matrix.python-version }}" = "3.11" ]; then
+            black --check --line-length 100 --fast src tests utils
+          else
+            black --check --line-length 100 src tests utils
+          fi
 
       - name: Run Ruff Linting
         run: |

@@ -7,6 +7,16 @@ on:
     branches: [main]
   push:
     branches: ["feat/*"]
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Publish target"
+        required: true
+        default: "alpha"
+        type: choice
+        options:
+          - alpha
+          - stable
 
 permissions:
   id-token: write
@@ -29,22 +39,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install hatch build
 
-      - name: Set alpha version (feat/* branch or PR)
-        if: github.event_name == 'pull_request' || startsWith(github.ref_name, 'feat/')
+      - name: Set alpha version
+        if: >-
+          github.event_name == 'pull_request'
+          || startsWith(github.ref_name, 'feat/')
+          || (github.event_name == 'workflow_dispatch' && github.event.inputs.target == 'alpha')
         run: |
-          SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
-          sed -i "s/^version = \".*\"/version = \"0.1.0a1+${SHORT_SHA}\"/" pyproject.toml
-          echo "Publishing alpha: 0.1.0a1+${SHORT_SHA}"
+          ALPHA_NUM=$(git rev-list --count HEAD)
+          sed -i "s/^version = \".*\"/version = \"0.1.0a${ALPHA_NUM}\"/" pyproject.toml
+          echo "Publishing alpha: 0.1.0a${ALPHA_NUM}"
 
       - name: Build Package
         run: python -m build
 
-      - name: Publish to TestPyPI (alpha)
-        if: github.event_name == 'pull_request' || startsWith(github.ref_name, 'feat/')
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
-
-      - name: Publish to PyPI (stable)
-        if: github.event_name == 'release'
+      - name: Publish to PyPI
+        if: >-
+          github.event_name == 'release'
+          || github.event_name == 'pull_request'
+          || startsWith(github.ref_name, 'feat/')
+          || github.event_name == 'workflow_dispatch'
         uses: pypa/gh-action-pypi-publish@release/v1

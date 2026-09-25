@@ -1,7 +1,11 @@
 """Tests for evidence-aware routing."""
 
 from multimodal_uncertainty.decision import PipelineDecisionEngine
-from multimodal_uncertainty.models import EvidenceStatus, FieldUncertainty, NodeUncertainty
+from multimodal_uncertainty.models import (
+    EvidenceStatus,
+    FieldUncertainty,
+    NodeUncertainty,
+)
 
 
 def available_node(perplexity: float, disagreement: float = 0.1) -> NodeUncertainty:

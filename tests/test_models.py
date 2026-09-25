@@ -3,7 +3,6 @@ Unit tests for Pydantic data models.
 """
 
 from multimodal_uncertainty.models import (
-    E2EEvaluatorResult,
     FieldUncertainty,
     NodeUncertainty,
     UncertaintyConfig,

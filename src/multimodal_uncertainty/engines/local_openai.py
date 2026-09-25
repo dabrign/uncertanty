@@ -3,7 +3,8 @@ Universal Local OpenAI-compatible VLM Engine (Ollama, MLX-VLM, vLLM Server, LM S
 """
 
 import json
-from typing import Any, Dict, List, Type, TypeVar
+from typing import Any, TypeVar
+
 import requests
 from pydantic import BaseModel
 
@@ -41,14 +42,14 @@ class LocalOpenAIUncertaintyEngine:
     def extract_and_evaluate(
         self,
         prompt: str,
-        schema_cls: Type[T],
+        schema_cls: type[T],
         image_base64: str | None = None,
         entropy_samples: int = 3,
     ) -> NodeUncertainty:
         target_fields = list(schema_cls.model_fields.keys())
 
         # Construct message payload
-        content: List[Dict[str, Any]] = [{"type": "text", "text": prompt}]
+        content: list[dict[str, Any]] = [{"type": "text", "text": prompt}]
         if image_base64:
             content.append(
                 {
@@ -117,7 +118,7 @@ class LocalOpenAIUncertaintyEngine:
         )
 
         # 2. Multi-sample generation for Semantic Entropy
-        samples: List[Dict[str, Any]] = []
+        samples: list[dict[str, Any]] = []
         sample_failures = 0
         if entropy_samples > 0:
             sample_payload = dict(payload)
@@ -143,9 +144,10 @@ class LocalOpenAIUncertaintyEngine:
             evidence_status = EvidenceStatus.UNAVAILABLE
         elif all(logprob == 0.0 for _, logprob in token_pairs):
             evidence_status = EvidenceStatus.DEGENERATE
-        elif any(not field_value_logprobs[field_name] for field_name in target_fields):
-            evidence_status = EvidenceStatus.PARTIAL
-        elif sample_failures:
+        elif (
+            any(not field_value_logprobs[field_name] for field_name in target_fields)
+            or sample_failures
+        ):
             evidence_status = EvidenceStatus.PARTIAL
         else:
             evidence_status = EvidenceStatus.AVAILABLE

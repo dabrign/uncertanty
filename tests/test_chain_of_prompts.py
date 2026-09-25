@@ -2,7 +2,11 @@
 Unit tests for ChainOfPromptsEvaluator multi-step tracking.
 """
 
-from multimodal_uncertainty.models import EvidenceStatus, FieldUncertainty, NodeUncertainty
+from multimodal_uncertainty.models import (
+    EvidenceStatus,
+    FieldUncertainty,
+    NodeUncertainty,
+)
 from multimodal_uncertainty.pipeline import ChainOfPromptsEvaluator
 
 

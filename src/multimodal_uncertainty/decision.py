@@ -2,7 +2,11 @@
 
 from collections.abc import Sequence
 
-from multimodal_uncertainty.models import E2EEvaluatorResult, EvidenceStatus, NodeUncertainty
+from multimodal_uncertainty.models import (
+    E2EEvaluatorResult,
+    EvidenceStatus,
+    NodeUncertainty,
+)
 
 
 class PipelineDecisionEngine:

@@ -2,11 +2,12 @@
 Local VLM Runner helper: Connects to local servers (Ollama, MLX, vLLM).
 """
 
+from typing import Any
+
 import requests
-from typing import Dict, Any
 
 
-def check_local_vlm_health(api_base: str = "http://localhost:11434/v1") -> Dict[str, Any]:
+def check_local_vlm_health(api_base: str = "http://localhost:11434/v1") -> dict[str, Any]:
     """
     Checks connection health and lists available models at an OpenAI-compatible endpoint.
     """
@@ -37,8 +38,11 @@ def check_local_vlm_health(api_base: str = "http://localhost:11434/v1") -> Dict[
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(description="Check local VLM server health")
-    parser.add_argument("--api-base", default="http://localhost:11434/v1", help="OpenAI API Base URL")
+    parser.add_argument(
+        "--api-base", default="http://localhost:11434/v1", help="OpenAI API Base URL"
+    )
     args = parser.parse_args()
 
     health = check_local_vlm_health(args.api_base)
