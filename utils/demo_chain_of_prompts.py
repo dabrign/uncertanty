@@ -23,9 +23,19 @@ def run_chain_of_prompts_demo():
         node_name="Step1_Doc_Classification_Agent",
         overall_value_perplexity=1.04,
         fields=[
-            FieldUncertainty(field_name="doc_type", extracted_value="TAX_INVOICE", perplexity=1.02, semantic_entropy=0.0),
-            FieldUncertainty(field_name="language", extracted_value="en-US", perplexity=1.06, semantic_entropy=0.0),
-        ]
+            FieldUncertainty(
+                field_name="doc_type",
+                extracted_value="TAX_INVOICE",
+                perplexity=1.02,
+                semantic_entropy=0.0,
+            ),
+            FieldUncertainty(
+                field_name="language",
+                extracted_value="en-US",
+                perplexity=1.06,
+                semantic_entropy=0.0,
+            ),
+        ],
     )
     action1 = pipeline.add_step_result(step1_node)
     print(f"\n[Step 1 Execution]: {step1_node.node_name}")
@@ -36,10 +46,25 @@ def run_chain_of_prompts_demo():
         node_name="Step2_Field_Extraction_Agent",
         overall_value_perplexity=3.85,  # Bottleneck!
         fields=[
-            FieldUncertainty(field_name="invoice_id", extracted_value="INV-9921", perplexity=1.08, semantic_entropy=0.0),
-            FieldUncertainty(field_name="total_amount", extracted_value=1450.00, perplexity=1.12, semantic_entropy=0.0),
-            FieldUncertainty(field_name="issue_date", extracted_value="2026-10-15?", perplexity=4.95, semantic_entropy=1.10),
-        ]
+            FieldUncertainty(
+                field_name="invoice_id",
+                extracted_value="INV-9921",
+                perplexity=1.08,
+                semantic_entropy=0.0,
+            ),
+            FieldUncertainty(
+                field_name="total_amount",
+                extracted_value=1450.00,
+                perplexity=1.12,
+                semantic_entropy=0.0,
+            ),
+            FieldUncertainty(
+                field_name="issue_date",
+                extracted_value="2026-10-15?",
+                perplexity=4.95,
+                semantic_entropy=1.10,
+            ),
+        ],
     )
     action2 = pipeline.add_step_result(step2_node)
     print(f"\n[Step 2 Execution]: {step2_node.node_name}")
@@ -54,9 +79,19 @@ def run_chain_of_prompts_demo():
         node_name="Step3_Validation_ReVerification_Agent",
         overall_value_perplexity=1.10,
         fields=[
-            FieldUncertainty(field_name="issue_date_verified", extracted_value="2026-10-15", perplexity=1.10, semantic_entropy=0.0),
-            FieldUncertainty(field_name="validation_status", extracted_value="PASSED", perplexity=1.05, semantic_entropy=0.0),
-        ]
+            FieldUncertainty(
+                field_name="issue_date_verified",
+                extracted_value="2026-10-15",
+                perplexity=1.10,
+                semantic_entropy=0.0,
+            ),
+            FieldUncertainty(
+                field_name="validation_status",
+                extracted_value="PASSED",
+                perplexity=1.05,
+                semantic_entropy=0.0,
+            ),
+        ],
     )
     action3 = pipeline.add_step_result(step3_node)
     print(f"\n[Step 3 Execution]: {step3_node.node_name}")

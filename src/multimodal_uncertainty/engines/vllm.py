@@ -2,7 +2,8 @@
 vLLM Open-Source Model Uncertainty Quantification Engine.
 """
 
-from typing import Any, Dict, List, Type, TypeVar
+from typing import Any, TypeVar
+
 from pydantic import BaseModel
 
 try:
@@ -43,7 +44,7 @@ class VLLMUncertaintyEngine:
         self.model_path = model_path
 
     def extract_with_pydantic_logprobs(
-        self, prompt: str, schema_cls: Type[T], entropy_samples: int = 1
+        self, prompt: str, schema_cls: type[T], entropy_samples: int = 1
     ) -> NodeUncertainty:
         guided_params = GuidedDecodingParams(json=schema_cls.model_json_schema())
         sampling_params = SamplingParams(
@@ -73,7 +74,7 @@ class VLLMUncertaintyEngine:
         )
 
         # Stochastic sampling if entropy requested
-        samples: List[Dict[str, Any]] = []
+        samples: list[dict[str, Any]] = []
         if entropy_samples > 1:
             stochastic_params = SamplingParams(
                 temperature=0.7,

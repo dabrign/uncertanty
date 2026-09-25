@@ -2,12 +2,13 @@
 Synthetic test image generator: Creates a test scene with a cat on a sofa.
 """
 
-import os
 import base64
+import os
 from io import BytesIO
 
 try:
     from PIL import Image, ImageDraw, ImageFont
+
     HAS_PIL = True
 except ImportError:
     HAS_PIL = False
@@ -26,11 +27,11 @@ def generate_cat_on_sofa_image(output_path: str = "cat_on_sofa.jpg") -> bytes:
 
         # Draw Sofa Background (Blue)
         draw.rectangle([50, 150, 550, 350], fill=(41, 128, 185), outline=(21, 67, 96), width=3)
-        draw.rectangle([70, 180, 530, 330], fill=(52, 152, 219)) # Cushions
+        draw.rectangle([70, 180, 530, 330], fill=(52, 152, 219))  # Cushions
 
         # Draw Orange Cat resting on cushion
-        draw.ellipse([220, 210, 360, 300], fill=(230, 126, 34)) # Cat body
-        draw.ellipse([330, 190, 390, 250], fill=(230, 126, 34)) # Cat head
+        draw.ellipse([220, 210, 360, 300], fill=(230, 126, 34))  # Cat body
+        draw.ellipse([330, 190, 390, 250], fill=(230, 126, 34))  # Cat head
         # Cat ears
         draw.polygon([(340, 195), (350, 170), (360, 195)], fill=(211, 84, 0))
         draw.polygon([(370, 195), (380, 170), (390, 195)], fill=(211, 84, 0))
@@ -38,7 +39,12 @@ def generate_cat_on_sofa_image(output_path: str = "cat_on_sofa.jpg") -> bytes:
         # Add text label
         try:
             font = ImageFont.load_default()
-            draw.text((20, 20), "Benchmark Scene: An orange cat resting on a blue sofa", fill=(44, 62, 80), font=font)
+            draw.text(
+                (20, 20),
+                "Benchmark Scene: An orange cat resting on a blue sofa",
+                fill=(44, 62, 80),
+                font=font,
+            )
             draw.text((250, 240), "CAT", fill=(255, 255, 255), font=font)
             draw.text((100, 290), "BLUE SOFA", fill=(255, 255, 255), font=font)
         except Exception:

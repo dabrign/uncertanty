@@ -4,7 +4,8 @@ import json
 import math
 import re
 from collections import Counter
-from typing import Any, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 
 def _top_level_value_spans(text: str, field_names: Sequence[str]) -> dict[str, tuple[int, int]]:

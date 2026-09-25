@@ -5,11 +5,10 @@ Detects local VLM inference engines (Ollama, vLLM, MLX-VLM, LM Studio), checks m
 and provides instructions/commands to install and launch open-weights models (e.g. Qwen2.5-VL).
 """
 
-import os
 import platform
 import shutil
-import subprocess
 import sys
+
 import requests
 
 
@@ -52,7 +51,9 @@ def setup_vlm_environment(api_base: str = "http://localhost:11434/v1", check_onl
     os_name = detect_os()
     print_header(f"Multimodal UQ Environment Setup ({os_name.upper()})")
 
-    print(f"[1/4] Operating System: {platform.system()} {platform.release()} ({platform.machine()})")
+    print(
+        f"[1/4] Operating System: {platform.system()} {platform.release()} ({platform.machine()})"
+    )
     print(f"[2/4] Python Version:   {sys.version.split()[0]}")
 
     # Check Ollama installation
@@ -104,6 +105,7 @@ def setup_vlm_environment(api_base: str = "http://localhost:11434/v1", check_onl
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(description="VLM Local Environment Setup Tool")
     parser.add_argument("--api-base", default="http://localhost:11434/v1", help="API Base URL")
     parser.add_argument("--check-only", action="store_true", help="Only check server status")

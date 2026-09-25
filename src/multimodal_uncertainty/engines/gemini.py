@@ -2,9 +2,9 @@
 Google Gemini Vision-Language Model Uncertainty Quantification Engine.
 """
 
-import math
 import os
-from typing import Any, Dict, List, Type, TypeVar
+from typing import Any, TypeVar
+
 from pydantic import BaseModel
 
 try:
@@ -49,7 +49,7 @@ class GeminiUncertaintyEngine:
         image_or_pdf_bytes: bytes,
         mime_type: str,
         prompt: str,
-        schema_cls: Type[T],
+        schema_cls: type[T],
         model_name: str = "gemini-2.5-flash",
         entropy_samples: int = 3,
     ) -> NodeUncertainty:
@@ -85,7 +85,7 @@ class GeminiUncertaintyEngine:
         )
 
         # 2. Multi-sample generation for Semantic Entropy
-        samples: List[Dict[str, Any]] = []
+        samples: list[dict[str, Any]] = []
         for _ in range(entropy_samples):
             res = self.client.models.generate_content(
                 model=model_name,

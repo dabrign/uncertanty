@@ -10,8 +10,8 @@ import argparse
 import base64
 import csv
 import json
-import os
 from io import BytesIO
+
 from pydantic import BaseModel, Field
 
 from multimodal_uncertainty.decision import PipelineDecisionEngine
@@ -19,6 +19,7 @@ from multimodal_uncertainty.engines.local_openai import LocalOpenAIUncertaintyEn
 
 try:
     from datasets import load_dataset
+
     HAS_HUGGINGFACE = True
 except ImportError:
     HAS_HUGGINGFACE = False
@@ -96,10 +97,14 @@ def download_and_evaluate(
                 "fields": fields_data,
             }
             export_records.append(record)
-            print(f"Sample #{i+1}: Action={eval_res.action}, Bottleneck PPL={eval_res.bottleneck_perplexity}")
+            print(
+                f"Sample #{i+1}: Action={eval_res.action}, Bottleneck PPL={eval_res.bottleneck_perplexity}"
+            )
 
         if not export_records:
-            raise ValueError(f"Dataset `{dataset_name}` split `{split}` did not contain any samples.")
+            raise ValueError(
+                f"Dataset `{dataset_name}` split `{split}` did not contain any samples."
+            )
 
     # 1. Save JSON
     with open(output_json, "w") as f:
@@ -109,19 +114,38 @@ def download_and_evaluate(
     # 2. Save CSV
     with open(output_csv, "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow([
-            "sample_id", "node_name", "action", "bottleneck_perplexity",
-            "mean_e2e_perplexity", "max_field_entropy", "is_synthetic", "field_name",
-            "extracted_value", "perplexity", "semantic_entropy"
-        ])
+        writer.writerow(
+            [
+                "sample_id",
+                "node_name",
+                "action",
+                "bottleneck_perplexity",
+                "mean_e2e_perplexity",
+                "max_field_entropy",
+                "is_synthetic",
+                "field_name",
+                "extracted_value",
+                "perplexity",
+                "semantic_entropy",
+            ]
+        )
         for rec in export_records:
             for field in rec.get("fields", []):
-                writer.writerow([
-                    rec["sample_id"], rec["node_name"], rec["action"],
-                    rec["bottleneck_perplexity"], rec["mean_e2e_perplexity"],
-                    rec["max_field_entropy"], rec["is_synthetic"], field["field_name"],
-                    field["extracted_value"], field["perplexity"], field["semantic_entropy"]
-                ])
+                writer.writerow(
+                    [
+                        rec["sample_id"],
+                        rec["node_name"],
+                        rec["action"],
+                        rec["bottleneck_perplexity"],
+                        rec["mean_e2e_perplexity"],
+                        rec["max_field_entropy"],
+                        rec["is_synthetic"],
+                        field["field_name"],
+                        field["extracted_value"],
+                        field["perplexity"],
+                        field["semantic_entropy"],
+                    ]
+                )
     print(f"✅ Exported CSV dataset evaluation report:  {output_csv}")
 
     print("\n----------------------------------------------------------------------")
@@ -129,7 +153,9 @@ def download_and_evaluate(
     print("  1. Open website/dashboard.html in your browser or run:")
     print("     python3 -m http.server 8000 --directory website")
     print("  2. Open http://localhost:8000/dashboard.html")
-    print(f"  3. Drag and drop `{output_json}` or `{output_csv}` to view interactive field highlighting!")
+    print(
+        f"  3. Drag and drop `{output_json}` or `{output_csv}` to view interactive field highlighting!"
+    )
     print("==========================================================================")
 
 
@@ -149,10 +175,30 @@ def generate_synthetic_dataset_records(num_samples: int = 5):
             "max_field_entropy": 0.0,
             "is_synthetic": True,
             "fields": [
-                {"field_name": "company", "extracted_value": "SUPERMARKET METRO", "perplexity": 1.02, "semantic_entropy": 0.0},
-                {"field_name": "date", "extracted_value": "2026-08-14", "perplexity": 1.05, "semantic_entropy": 0.0},
-                {"field_name": "address", "extracted_value": "VIA ROMA 45, MILANO", "perplexity": 1.04, "semantic_entropy": 0.0},
-                {"field_name": "total", "extracted_value": 45.90, "perplexity": 1.03, "semantic_entropy": 0.0},
+                {
+                    "field_name": "company",
+                    "extracted_value": "SUPERMARKET METRO",
+                    "perplexity": 1.02,
+                    "semantic_entropy": 0.0,
+                },
+                {
+                    "field_name": "date",
+                    "extracted_value": "2026-08-14",
+                    "perplexity": 1.05,
+                    "semantic_entropy": 0.0,
+                },
+                {
+                    "field_name": "address",
+                    "extracted_value": "VIA ROMA 45, MILANO",
+                    "perplexity": 1.04,
+                    "semantic_entropy": 0.0,
+                },
+                {
+                    "field_name": "total",
+                    "extracted_value": 45.90,
+                    "perplexity": 1.03,
+                    "semantic_entropy": 0.0,
+                },
             ],
         },
         {
@@ -164,10 +210,30 @@ def generate_synthetic_dataset_records(num_samples: int = 5):
             "max_field_entropy": 0.65,
             "is_synthetic": True,
             "fields": [
-                {"field_name": "company", "extracted_value": "CAFE CENTRAL", "perplexity": 1.08, "semantic_entropy": 0.0},
-                {"field_name": "date", "extracted_value": "2026-??-12", "perplexity": 2.85, "semantic_entropy": 0.65},
-                {"field_name": "address", "extracted_value": "MAIN STREET 12", "perplexity": 1.10, "semantic_entropy": 0.0},
-                {"field_name": "total", "extracted_value": 12.50, "perplexity": 1.06, "semantic_entropy": 0.0},
+                {
+                    "field_name": "company",
+                    "extracted_value": "CAFE CENTRAL",
+                    "perplexity": 1.08,
+                    "semantic_entropy": 0.0,
+                },
+                {
+                    "field_name": "date",
+                    "extracted_value": "2026-??-12",
+                    "perplexity": 2.85,
+                    "semantic_entropy": 0.65,
+                },
+                {
+                    "field_name": "address",
+                    "extracted_value": "MAIN STREET 12",
+                    "perplexity": 1.10,
+                    "semantic_entropy": 0.0,
+                },
+                {
+                    "field_name": "total",
+                    "extracted_value": 12.50,
+                    "perplexity": 1.06,
+                    "semantic_entropy": 0.0,
+                },
             ],
         },
         {
@@ -179,10 +245,30 @@ def generate_synthetic_dataset_records(num_samples: int = 5):
             "max_field_entropy": 1.35,
             "is_synthetic": True,
             "fields": [
-                {"field_name": "company", "extracted_value": "PHARMACY PLUS", "perplexity": 1.05, "semantic_entropy": 0.0},
-                {"field_name": "date", "extracted_value": "2026-09-01", "perplexity": 1.08, "semantic_entropy": 0.0},
-                {"field_name": "address", "extracted_value": "7TH AVENUE", "perplexity": 1.12, "semantic_entropy": 0.0},
-                {"field_name": "total", "extracted_value": 9999.99, "perplexity": 5.40, "semantic_entropy": 1.35},
+                {
+                    "field_name": "company",
+                    "extracted_value": "PHARMACY PLUS",
+                    "perplexity": 1.05,
+                    "semantic_entropy": 0.0,
+                },
+                {
+                    "field_name": "date",
+                    "extracted_value": "2026-09-01",
+                    "perplexity": 1.08,
+                    "semantic_entropy": 0.0,
+                },
+                {
+                    "field_name": "address",
+                    "extracted_value": "7TH AVENUE",
+                    "perplexity": 1.12,
+                    "semantic_entropy": 0.0,
+                },
+                {
+                    "field_name": "total",
+                    "extracted_value": 9999.99,
+                    "perplexity": 5.40,
+                    "semantic_entropy": 1.35,
+                },
             ],
         },
     ]
@@ -196,7 +282,9 @@ if __name__ == "__main__":
     parser.add_argument("--samples", type=int, default=5, help="Number of samples")
     parser.add_argument("--output-json", default="dataset_export.json", help="JSON output file")
     parser.add_argument("--output-csv", default="dataset_export.csv", help="CSV output file")
-    parser.add_argument("--api-base", default="http://localhost:11434/v1", help="Local OpenAI-compatible endpoint")
+    parser.add_argument(
+        "--api-base", default="http://localhost:11434/v1", help="Local OpenAI-compatible endpoint"
+    )
     parser.add_argument("--model", default="qwen2.5-vl", help="Local model identifier")
     parser.add_argument(
         "--mock",

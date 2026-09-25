@@ -70,6 +70,9 @@ Issues = "https://github.com/dabrign/uncertanty/issues"
 [tool.hatch.build.targets.wheel]
 packages = ["src/multimodal_uncertainty"]
 
+[tool.ruff.lint]
+ignore = ["BLE001", "S110", "PERF102", "SIM103"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
