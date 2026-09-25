@@ -1,0 +1,48 @@
+site_name: multimodal-uncertainty
+site_description: End-to-End Extraction Uncertainty Quantification in Multimodal Agent Pipelines
+site_url: https://your-org.github.io/multimodal-uncertainty/
+repo_url: https://github.com/your-org/multimodal-uncertainty
+repo_name: your-org/multimodal-uncertainty
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: cyan
+    accent: blue
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.def_mermaid
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed
+
+nav:
+  - Home: index.md
+  - Architecture & Math: architecture.md
+  - Literature Review: literature.md
+  - API Reference: api.md
+  - Competitor Comparison: comparison.md
+  - Dataset Benchmarking: datasets.md
+  - HITL Visualizer Dashboard: dashboard.md
