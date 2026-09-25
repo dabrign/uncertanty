@@ -8,7 +8,7 @@ Thank you for your interest in contributing to `multimodal-uncertainty`! We welc
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-org/multimodal-uncertainty.git
+   git clone https://github.com/dabrign/uncertanty.git
    cd multimodal-uncertainty
    ```
 

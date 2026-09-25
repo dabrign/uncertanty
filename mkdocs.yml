@@ -1,8 +1,8 @@
 site_name: multimodal-uncertainty
 site_description: End-to-End Extraction Uncertainty Quantification in Multimodal Agent Pipelines
-site_url: https://your-org.github.io/multimodal-uncertainty/
-repo_url: https://github.com/your-org/multimodal-uncertainty
-repo_name: your-org/multimodal-uncertainty
+site_url: https://dabrign.github.io/uncertanty/
+repo_url: https://github.com/dabrign/uncertanty
+repo_name: dabrign/uncertanty
 
 theme:
   name: material

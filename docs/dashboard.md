@@ -25,4 +25,4 @@ python3 -m http.server 8000 --directory website
 Open [http://localhost:8000/dashboard.html](http://localhost:8000/dashboard.html) in your browser.
 
 ### Option 2: Live on GitHub Pages
-Access directly at `https://<your-org>.github.io/multimodal-uncertainty/dashboard.html`.
+Access directly at `https://dabrign.github.io/uncertanty/dashboard.html`.

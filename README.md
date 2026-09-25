@@ -2,7 +2,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/multimodal-uncertainty.svg)](https://pypi.org/project/multimodal-uncertainty/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![CI Status](https://github.com/your-org/multimodal-uncertainty/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/multimodal-uncertainty/actions)
+[![CI Status](https://github.com/dabrign/uncertanty/actions/workflows/ci.yml/badge.svg)](https://github.com/dabrign/uncertanty/actions)
 
 **End-to-End (E2E) Extraction Uncertainty Quantification in Multimodal Agent Pipelines.**
 
@@ -102,7 +102,7 @@ python utils/demo_cat_dog_test.py --api-base http://localhost:11434/v1 --model q
 
 ## Documentation & Project Portal
 
-- 📚 **GitHub Pages Portal**: [https://your-org.github.io/multimodal-uncertainty/](https://your-org.github.io/multimodal-uncertainty/)
+- 📚 **GitHub Pages Portal**: [https://dabrign.github.io/uncertanty/](https://dabrign.github.io/uncertanty/)
 - 🗺️ **Roadmap**: See [ROADMAP.md](ROADMAP.md)
 - 🎨 **Code Style**: See [style.md](style.md)
 - 📋 **Master Execution Plan**: See [PLAN.md](PLAN.md)

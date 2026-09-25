@@ -3,15 +3,18 @@ name: Publish to PyPI
 on:
   release:
     types: [published]
+  pull_request:
+    branches: [main]
+  push:
+    branches: ["feat/*"]
 
 permissions:
   id-token: write
 
 jobs:
   build-n-publish:
-    name: Build & Publish to PyPI
+    name: Build & Publish
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -26,9 +29,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install hatch build
 
-      - name: Build Package
+      - name: Set alpha version (feat/* branch or PR)
+        if: github.event_name == 'pull_request' || startsWith(github.ref_name, 'feat/')
         run: |
-          python -m build
+          SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
+          sed -i "s/^version = \".*\"/version = \"0.1.0a1+${SHORT_SHA}\"/" pyproject.toml
+          echo "Publishing alpha: 0.1.0a1+${SHORT_SHA}"
 
-      - name: Publish Package to PyPI
+      - name: Build Package
+        run: python -m build
+
+      - name: Publish to TestPyPI (alpha)
+        if: github.event_name == 'pull_request' || startsWith(github.ref_name, 'feat/')
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+      - name: Publish to PyPI (stable)
+        if: github.event_name == 'release'
         uses: pypa/gh-action-pypi-publish@release/v1
