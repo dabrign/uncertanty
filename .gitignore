@@ -1,0 +1,57 @@
+# Personal notes & maintainer guides (uncommitted)
+personal_note/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+bdist.*/
+dist/
+sdist/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Pytest & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.coverage.*
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node.js / frontend
+node_modules/
+frontend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# macOS
+.DS_Store
+
+# Documentation builds
+site/
+.mkdocs/
+
+# Local data & temporary test outputs
+cat_on_sofa.jpg
+utils/cat_on_sofa.jpg
+dataset_export.json
+dataset_export.csv

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>multimodal-uncertainty | End-to-End Multimodal UQ</title>
+  <meta name="description" content="End-to-End Extraction Uncertainty Quantification in Multimodal Agent Pipelines for Gemini, vLLM, and Open-Source VLMs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+
+  <div class="container">
+    <header>
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        multimodal-uncertainty
+      </div>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#demo">Live Demo</a>
+        <a href="dashboard.html" style="color: var(--accent-cyan);">HITL Dashboard</a>
+        <a href="https://github.com/your-org/multimodal-uncertainty" target="_blank">GitHub</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="badge">🚀 Production Framework for Multimodal UQ</div>
+      <h1>End-to-End Extraction Uncertainty in <span>Multimodal Agent Pipelines</span></h1>
+      <p class="subtitle">
+        Quantify field-level extraction risk in PDFs, images, and structured JSON outputs using Gemini and self-hosted VLMs. Isolate value-only logprobs & compute semantic entropy to automate HITL routing.
+      </p>
+      <div class="cta-group">
+        <a href="https://github.com/your-org/multimodal-uncertainty" class="btn-primary">View on GitHub</a>
+        <a href="#demo" class="btn-secondary">Explore Benchmark Demo</a>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>Value-Only Logprob Filtering</h3>
+        <p>Strips fixed structural JSON characters ({}, [], ":") that artificially inflate confidence, measuring pure field extraction uncertainty.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🧬</div>
+        <h3>Semantic Entropy Sampling</h3>
+        <p>Groups stochastic outputs into semantic equivalence classes (Kuhn et al., 2023) to eliminate string-formatting false alarms.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Multi-Engine Support</h3>
+        <p>Seamlessly integrates Google Gemini (google-genai), vLLM (GuidedDecodingParams), Ollama, MLX-VLM, and local OpenAI endpoints.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⚖️</div>
+        <h3>Automated Decision Matrix</h3>
+        <p>Evaluates bottleneck perplexity and semantic entropy to route payloads into AUTO_ACCEPT, NEEDS_REVIEW, or REJECT workflows.</p>
+      </div>
+    </section>
+
+    <section id="architecture" class="code-section">
+      <div class="code-header">
+        <span>quickstart.py</span>
+        <span>Python 3.10+</span>
+      </div>
+      <pre><code>from pydantic import BaseModel
+from multimodal_uncertainty import GeminiUncertaintyEngine, PipelineDecisionEngine
+
+class InvoiceSchema(BaseModel):
+    invoice_number: str
+    total_amount: float
+    vendor: str
+
+# 1. Single-pass logprobs + multi-sample semantic entropy
+engine = GeminiUncertaintyEngine()
+node_result = engine.extract_and_evaluate(
+    image_or_pdf_bytes=pdf_bytes,
+    mime_type="application/pdf",
+    prompt="Extract invoice fields.",
+    schema_cls=InvoiceSchema
+)
+
+# 2. Decision Matrix Routing
+decision_engine = PipelineDecisionEngine(ppl_threshold=2.2, entropy_threshold=0.5)
+result = decision_engine.evaluate([node_result])
+
+print(f"Action: {result.action} | Bottleneck PPL: {result.bottleneck_perplexity}")</code></pre>
+    </section>
+
+    <section id="demo" class="demo-calculator">
+      <div class="demo-title">
+        <h2>Cat vs. Dog Prompt Injection Benchmark</h2>
+        <p style="color: var(--text-muted);">Comparing model perplexity on valid vs out-of-domain targets on a synthetic sofa scene.</p>
+      </div>
+
+      <div class="metrics-flex">
+        <div class="metric-box">
+          <div style="font-size: 0.85rem; color: var(--text-muted);">Valid Query: "Where is the cat?"</div>
+          <div class="metric-val" style="color: #10b981;">AUTO_ACCEPT</div>
+          <div style="margin-top: 0.5rem; font-size: 0.9rem;">
+            Bottleneck PPL: <strong>1.08</strong><br>
+            Max Entropy: <strong>0.15</strong>
+          </div>
+        </div>
+
+        <div class="metric-box">
+          <div style="font-size: 0.85rem; color: var(--text-muted);">Hallucinated Query: "Where is the dog?"</div>
+          <div class="metric-val" style="color: #ef4444;">REJECT</div>
+          <div style="margin-top: 0.5rem; font-size: 0.9rem;">
+            Bottleneck PPL: <strong>4.82</strong><br>
+            Max Entropy: <strong>1.45</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 Multimodal UQ Contributors. Released under the Apache 2.0 License.</p>
+    </footer>
+  </div>
+
+</body>
+</html>
